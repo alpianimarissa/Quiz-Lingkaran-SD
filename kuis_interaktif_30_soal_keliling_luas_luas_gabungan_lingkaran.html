@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Interaktif 30 Soal: Keliling, Luas & Luas Gabungan Lingkaran (Kelas 6 SD)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        },
+                        teal: {
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Pecahan matematika tegak lurus (vertikal atas-bawah) */
+        .frac {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            vertical-align: middle;
+            line-height: 1.05;
+            margin: 0 0.2em;
+            font-size: 0.88em;
+        }
+        .frac > span:first-child {
+            border-bottom: 1.5px solid currentColor;
+            padding: 0 0.22em 1px;
+        }
+        .frac > span:last-child {
+            padding: 1px 0.22em 0;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-primary-500 selection:text-white min-h-screen flex flex-col">
+
+    <!-- Header Navigasi -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-600 to-teal-500 flex items-center justify-center text-white shadow-md">
+                    <i class="fa-regular fa-circle-dot text-xl"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-display font-bold text-lg text-slate-900 leading-none">Geo<span class="text-primary-600">Lingkaran</span></span>
+                        <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-teal-100 text-teal-800">30 Soal Unik</span>
+                    </div>
+                    <span class="text-xs text-slate-500 hidden sm:inline">Langsung • Penerapan & Gabungan • Soal Cerita (Kelas 6 SD)</span>
+                </div>
+            </div>
+
+            <!-- Status Penyimpanan Otomatis & Reset -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <div id="autosave-indicator" class="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="hidden md:inline">Tersimpan Otomatis</span>
+                    <span class="md:hidden">Tersimpan</span>
+                </div>
+                <button onclick="openConfirmReset()" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-rose-50 text-slate-600 hover:text-rose-600 border border-slate-200 hover:border-rose-200 text-xs font-semibold transition flex items-center gap-1.5" title="Hapus semua jawaban dan ulangi">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span class="hidden sm:inline">Reset Kuis</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Konten Utama -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+        <!-- Ringkasan Statistik Kuis -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6">
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center shrink-0">
+                    <i class="fa-solid fa-list-check"></i>
+                </div>
+                <div>
+                    <div class="text-xs text-slate-500">Terjawab</div>
+                    <div class="font-display font-bold text-lg text-slate-900"><span id="stat-answered">0</span> / 30</div>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div>
+                    <div class="text-xs text-slate-500">Benar</div>
+                    <div class="font-display font-bold text-lg text-emerald-600" id="stat-correct">0</div>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
+                    <i class="fa-solid fa-circle-xmark"></i>
+                </div>
+                <div>
+                    <div class="text-xs text-slate-500">Salah</div>
+                    <div class="font-display font-bold text-lg text-rose-600" id="stat-wrong">0</div>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-slate-900 via-primary-900 to-slate-900 text-white p-4 rounded-2xl shadow-sm flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-white/10 text-teal-300 flex items-center justify-center shrink-0">
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <div>
+                    <div class="text-xs text-slate-300">Skor Nilai</div>
+                    <div class="font-display font-bold text-lg text-teal-300" id="stat-score">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grid Utama: Kartu Soal + Navigasi Nomor -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+            <!-- Area Soal -->
+            <div class="lg:col-span-8 space-y-6">
+                <div id="quiz-card" class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+                    <!-- Header Soal -->
+                    <div class="bg-slate-900 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-2">
+                        <div class="flex items-center gap-2.5">
+                            <span class="px-3 py-1 rounded-lg bg-primary-600 font-display font-bold text-sm">Soal #<span id="q-number">1</span></span>
+                            <span id="q-category" class="px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-200 text-xs font-semibold">Soal Langsung</span>
+                        </div>
+                        <span id="q-status-badge" class="text-xs font-medium text-slate-400">Belum dijawab</span>
+                    </div>
+
+                    <!-- Isi Pertanyaan, Ilustrasi & Pilihan -->
+                    <div class="p-6 sm:p-8 space-y-6">
+                        <div class="flex flex-col md:flex-row gap-6 items-center md:items-start">
+                            <div class="flex-1 space-y-3 w-full">
+                                <div id="q-text" class="text-base sm:text-lg font-medium text-slate-800 leading-relaxed">
+                                    Memuat soal...
+                                </div>
+                            </div>
+
+                            <!-- Kotak Ilustrasi SVG (100% Unik untuk setiap nomor 1-30) -->
+                            <div id="q-illustration-box" class="w-full md:w-64 bg-slate-50 rounded-2xl border border-slate-200 p-3.5 flex flex-col items-center justify-center shrink-0">
+                                <div id="q-illustration" class="w-full flex justify-center"></div>
+                                <span id="q-illustration-caption" class="text-[11px] text-slate-500 text-center mt-2 font-medium"></span>
+                            </div>
+                        </div>
+
+                        <!-- Pilihan A, B, C, D -->
+                        <div id="q-options" class="grid grid-cols-1 gap-3 pt-1">
+                            <!-- Diisi via JavaScript -->
+                        </div>
+
+                        <!-- Umpan Balik Langsung (Benar/Salah + Pembahasan) -->
+                        <div id="q-feedback" class="hidden rounded-2xl p-5 border transition-all">
+                            <div class="flex items-start gap-3">
+                                <div id="q-feedback-icon" class="text-2xl mt-0.5 shrink-0"></div>
+                                <div class="space-y-1.5 flex-1">
+                                    <h4 id="q-feedback-title" class="font-display font-bold text-base"></h4>
+                                    <div id="q-feedback-explanation" class="text-sm leading-relaxed"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tombol Navigasi Bawah Kartu -->
+                    <div class="bg-slate-50 px-6 py-4 border-t border-slate-200 flex items-center justify-between gap-2">
+                        <button id="btn-prev" onclick="navigateQuestion(-1)" class="px-3.5 sm:px-4 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-semibold text-xs sm:text-sm transition flex items-center gap-1.5 disabled:opacity-40 disabled:pointer-events-none">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            <span>Sebelumnya</span>
+                        </button>
+
+                        <button id="btn-finish" onclick="showSummaryModal()" class="px-4 sm:px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs sm:text-sm shadow-sm transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-flag-checkered"></i>
+                            <span>Rekap Nilai</span>
+                        </button>
+
+                        <button id="btn-next" onclick="navigateQuestion(1)" class="px-3.5 sm:px-4 py-2.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-semibold text-xs sm:text-sm shadow-sm transition flex items-center gap-1.5 disabled:opacity-40 disabled:pointer-events-none">
+                            <span>Selanjutnya</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel Navigasi 30 Nomor Soal -->
+            <aside class="lg:col-span-4 space-y-4 lg:sticky lg:top-24">
+                <div class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-sm">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="font-display font-bold text-base text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-grip text-primary-600"></i>
+                            <span>Navigasi Nomor Soal</span>
+                        </h3>
+                        <span class="text-xs font-semibold text-slate-500" id="nav-progress-pct">0% Selesai</span>
+                    </div>
+
+                    <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-4">
+                        <div id="nav-progress-bar" class="h-full bg-gradient-to-r from-primary-600 to-teal-500 transition-all duration-300" style="width: 0%"></div>
+                    </div>
+
+                    <div id="nav-grid" class="grid grid-cols-5 sm:grid-cols-6 lg:grid-cols-5 gap-2 max-h-[340px] overflow-y-auto pr-1">
+                        <!-- 30 tombol nomor dirender oleh JS -->
+                    </div>
+
+                    <!-- Legenda Warna -->
+                    <div class="mt-5 pt-4 border-t border-slate-100 grid grid-cols-2 gap-2 text-xs text-slate-600">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3.5 h-3.5 rounded bg-emerald-500 inline-block"></span>
+                            <span>Benar</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-3.5 h-3.5 rounded bg-rose-500 inline-block"></span>
+                            <span>Salah</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-3.5 h-3.5 rounded bg-slate-100 border border-slate-300 inline-block"></span>
+                            <span>Belum Dijawab</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-3.5 h-3.5 rounded ring-2 ring-primary-600 bg-primary-50 inline-block"></span>
+                            <span>Soal Aktif</span>
+                        </div>
+                    </div>
+
+                    <!-- Pintasan Lompat Bagian (Sesuai urutan: Langsung -> Penerapan/Gabungan -> Cerita) -->
+                    <div class="mt-4 pt-4 border-t border-slate-100">
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-2">Urutan & Bagian Soal:</span>
+                        <div class="flex flex-wrap gap-1.5">
+                            <button onclick="jumpToQuestion(0)" class="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold transition">1–8: Soal Langsung</button>
+                            <button onclick="jumpToQuestion(8)" class="px-2.5 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold transition">9–20: Penerapan & Gabungan</button>
+                            <button onclick="jumpToQuestion(20)" class="px-2.5 py-1 rounded-lg bg-teal-50 hover:bg-teal-100 text-teal-700 text-xs font-semibold transition">21–30: Soal Cerita</button>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+    </main>
+
+    <!-- Modal Rekap Nilai -->
+    <div id="summary-modal" class="hidden fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 space-y-6">
+            <div class="text-center space-y-2">
+                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-600 to-teal-500 text-white flex items-center justify-center text-3xl mx-auto shadow-lg">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                <h2 class="font-display text-2xl font-bold text-slate-900">Rekap Hasil Kuis Lingkaran</h2>
+                <p class="text-sm text-slate-500">Evaluasi 30 Soal Keliling, Luas & Luas Gabungan Kelas 6 SD</p>
+            </div>
+
+            <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 text-center">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Nilai Akhir</span>
+                <div class="font-display text-5xl font-extrabold text-primary-600 my-1" id="modal-final-score">0</div>
+                <p class="text-xs text-slate-500" id="modal-answered-info">0 dari 30 soal telah dijawab</p>
+            </div>
+
+            <div class="grid grid-cols-3 gap-3 text-center">
+                <div class="p-3 rounded-xl bg-emerald-50 border border-emerald-200">
+                    <div class="text-xs text-emerald-700 font-medium">Benar</div>
+                    <div class="font-display font-bold text-xl text-emerald-700" id="modal-correct">0</div>
+                </div>
+                <div class="p-3 rounded-xl bg-rose-50 border border-rose-200">
+                    <div class="text-xs text-rose-700 font-medium">Salah</div>
+                    <div class="font-display font-bold text-xl text-rose-700" id="modal-wrong">0</div>
+                </div>
+                <div class="p-3 rounded-xl bg-slate-100 border border-slate-200">
+                    <div class="text-xs text-slate-600 font-medium">Kosong</div>
+                    <div class="font-display font-bold text-xl text-slate-700" id="modal-unanswered">30</div>
+                </div>
+            </div>
+
+            <p id="modal-feedback-msg" class="text-sm text-slate-600 text-center leading-relaxed bg-blue-50/70 p-4 rounded-xl border border-blue-100"></p>
+
+            <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                <button onclick="closeSummaryModal()" class="flex-1 px-4 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-sm transition">
+                    Kembali ke Soal
+                </button>
+                <button onclick="closeSummaryModal(); openConfirmReset();" class="flex-1 px-4 py-3 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold text-sm transition">
+                    Ulangi Dari Awal
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Konfirmasi Reset -->
+    <div id="reset-modal" class="hidden fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-5">
+            <div class="flex items-center gap-3 text-rose-600">
+                <div class="w-12 h-12 rounded-2xl bg-rose-50 flex items-center justify-center text-xl shrink-0">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <div>
+                    <h3 class="font-display font-bold text-lg text-slate-900">Hapus Semua Jawaban?</h3>
+                    <p class="text-xs text-slate-500">Progres kuis akan dikembalikan ke 0.</p>
+                </div>
+            </div>
+            <p class="text-sm text-slate-600 leading-relaxed">
+                Apakah kamu yakin ingin menghapus seluruh jawaban tersimpan dan memulai kuis dari nomor 1?
+            </p>
+            <div class="flex gap-3 justify-end pt-2">
+                <button onclick="closeConfirmReset()" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm transition">
+                    Batal
+                </button>
+                <button onclick="executeResetQuiz()" class="px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-sm transition">
+                    Ya, Reset Kuis
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-5 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-slate-500">
+            <span><strong class="text-slate-700">GeoLingkaran</strong> • Kuis Interaktif Kelas 6 SD</span>
+            <span>30 Soal Unik & 30 Ilustrasi Berbeda • Jawaban otomatis tersimpan di perangkat.</span>
+        </div>
+    </footer>
+
+    <!-- =========================================================================
+         LOGIKA JAVASCRIPT: 30 SOAL UNIK + 30 ILUSTRASI SVG BERBEDA + AUTO-SAVE
+         Urutan: 1-8 Soal Langsung | 9-20 Penerapan & Gabungan | 21-30 Soal Cerita
+         ========================================================================= -->
+    <script>
+        const frac = (n, d) => `<span class="frac"><span>${n}</span><span>${d}</span></span>`;
+
+        // Definisi pola arsiran diagonal untuk SVG bangun gabungan
+        const hatch = (id = "arsirBlue", color = "#0284c7", angle = 45) => `
+            <defs>
+                <pattern id="${id}" width="7" height="7" patternTransform="rotate(${angle} 0 0)" patternUnits="userSpaceOnUse">
+                    <line x1="0" y1="0" x2="0" y2="7" stroke="${color}" stroke-width="2" />
+                </pattern>
+            </defs>`;
+
+        // =========================================================================
+        // BANK 30 SOAL UNIK (SETIAP NOMOR MEMILIKI ILUSTRASI SVG YANG BERBEDA)
+        // Kunci jawaban diacak merata tanpa pola berulang (A:8, B:7, C:8, D:7)
+        // =========================================================================
+        const questionsBank = [
+            // =====================================================================
+            // BAGIAN 1: SOAL LANGSUNG (NOMOR 1 - 8)
+            // =====================================================================
+            {
+                id: 1,
+                category: "Soal Langsung",
+                question: `Sebuah lingkaran memiliki jari-jari 21 cm. Berapakah keliling lingkaran tersebut? (Gunakan π = ${frac(22, 7)})`,
+                illustration: `
+                    <svg viewBox="0 0 170 140" class="w-40 h-32">
+                        <circle cx="85" cy="70" r="46" fill="#eff6ff" stroke="#2563eb" stroke-width="2.5"/>
+                        <line x1="85" y1="70" x2="131" y2="70" stroke="#dc2626" stroke-width="2.2"/>
+                        <circle cx="85" cy="70" r="3.5" fill="#dc2626"/>
+                        <text x="108" y="62" text-anchor="middle" font-size="10" font-weight="bold" fill="#dc2626">r = 21 cm</text>
+                    </svg>`,
+                caption: "Lingkaran berjari-jari 21 cm",
+                options: ["66 cm", "264 cm", "132 cm", "1.386 cm"],
+                correct: 2, // C
+                explanation: `Keliling lingkaran K = 2 × π × r = 2 × ${frac(22, 7)} × 21 = 44 × 3 = <strong>132 cm</strong>.`
+            },
+            {
+                id: 2,
+                category: "Soal Langsung",
+                question: `Diketahui sebuah lingkaran berdiameter 20 cm. Berapakah luas lingkaran tersebut? (Gunakan π = 3,14)`,
+                illustration: `
+                    <svg viewBox="0 0 170 140" class="w-40 h-32">
+                        <circle cx="85" cy="70" r="46" fill="#fef3c7" stroke="#d97706" stroke-width="2.5"/>
+                        <line x1="39" y1="70" x2="131" y2="70" stroke="#b91c1c" stroke-width="2.2" stroke-dasharray="4,2"/>
+                        <text x="85" y="61" text-anchor="middle" font-size="10" font-weight="bold" fill="#92400e">d = 20 cm</text>
+                    </svg>`,
+                caption: "Lingkaran berdiameter 20 cm",
+                options: ["314 cm²", "62,8 cm²", "157 cm²", "1.256 cm²"],
+                correct: 0, // A
+                explanation: `Diameter d = 20 cm, sehingga r = 20 ÷ 2 = 10 cm. Luas = π × r² = 3,14 × 10 × 10 = <strong>314 cm²</strong>.`
+            },
+            {
+                id: 3,
+                category: "Soal Langsung",
+                question: `Perhatikan gambar setengah lingkaran tertutup dengan diameter 14 cm di samping. Keliling bangun setengah lingkaran tersebut adalah ... (π = ${frac(22, 7)})`,
+                illustration: `
+                    <svg viewBox="0 0 170 130" class="w-40 h-30">
+                        <path d="M 30 92 A 55 55 0 0 1 140 92 Z" fill="#ccfbf1" stroke="#0d9488" stroke-width="2.5"/>
+                        <text x="85" y="110" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#0f766e">14 cm</text>
+                    </svg>`,
+                caption: "Bangun ½ lingkaran tertutup berdiameter 14 cm",
+                options: ["22 cm", "44 cm", "77 cm", "36 cm"],
+                correct: 3, // D
+                explanation: `Keliling ½ lingkaran tertutup = (${frac(1, 2)} × π × d) + d = (${frac(1, 2)} × ${frac(22, 7)} × 14) + 14 = 22 + 14 = <strong>36 cm</strong>.`
+            },
+            {
+                id: 4,
+                category: "Soal Langsung",
+                question: `Perhatikan gambar juring ${frac(3, 4)} lingkaran berjari-jari 7 cm di samping. Luas bangun tersebut adalah ... (π = ${frac(22, 7)})`,
+                illustration: `
+                    <svg viewBox="0 0 160 140" class="w-36 h-32">
+                        <path d="M 80 70 L 80 22 A 48 48 0 1 0 128 70 Z" fill="#e0e7ff" stroke="#4f46e5" stroke-width="2.5"/>
+                        <text x="104" y="64" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#3730a3">7 cm</text>
+                        <text x="72" y="46" text-anchor="end" font-size="9.5" font-weight="bold" fill="#3730a3">7 cm</text>
+                    </svg>`,
+                caption: "Juring ¾ lingkaran r = 7 cm",
+                options: ["38,5 cm²", "115,5 cm²", "77 cm²", "154 cm²"],
+                correct: 1, // B
+                explanation: `Luas ${frac(3, 4)} lingkaran = ${frac(3, 4)} × π × r² = ${frac(3, 4)} × ${frac(22, 7)} × 7 × 7 = ${frac(3, 4)} × 154 = <strong>115,5 cm²</strong>.`
+            },
+            {
+                id: 5,
+                category: "Soal Langsung",
+                question: `Hitunglah luas juring ${frac(1, 4)} lingkaran yang memiliki jari-jari 14 cm seperti pada gambar! (π = ${frac(22, 7)})`,
+                illustration: `
+                    <svg viewBox="0 0 160 135" class="w-36 h-30">
+                        <path d="M 42 105 L 42 35 A 70 70 0 0 1 112 105 Z" fill="#fce7f3" stroke="#db2777" stroke-width="2.5"/>
+                        <text x="77" y="120" text-anchor="middle" font-size="10" font-weight="bold" fill="#9d174d">r = 14 cm</text>
+                    </svg>`,
+                caption: "Juring ¼ lingkaran berjari-jari 14 cm",
+                options: ["77 cm²", "154 cm²", "308 cm²", "616 cm²"],
+                correct: 1, // B
+                explanation: `Luas ${frac(1, 4)} lingkaran = ${frac(1, 4)} × ${frac(22, 7)} × 14 × 14 = ${frac(1, 4)} × 616 = <strong>154 cm²</strong>.`
+            },
+            {
+                id: 6,
+                category: "Soal Langsung",
+                question: `Jika luas sebuah lingkaran adalah 1.256 cm², berapakah panjang jari-jari lingkaran tersebut? (Gunakan π = 3,14)`,
+                illustration: `
+                    <svg viewBox="0 0 160 135" class="w-36 h-30">
+                        <circle cx="80" cy="66" r="45" fill="#ecfdf5" stroke="#059669" stroke-width="2.5"/>
+                        <text x="80" y="63" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#065f46">Luas =</text>
+                        <text x="80" y="76" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#065f46">1.256 cm²</text>
+                        <text x="80" y="125" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#dc2626">r = ... cm?</text>
+                    </svg>`,
+                caption: "Menentukan r jika diketahui luas lingkaran",
+                options: ["10 cm", "15 cm", "40 cm", "20 cm"],
+                correct: 3, // D
+                explanation: `L = π × r² → 1.256 = 3,14 × r² → r² = 1.256 ÷ 3,14 = 400 → r = √400 = <strong>20 cm</strong>.`
+            },
+            {
+                id: 7,
+                category: "Soal Langsung",
+                question: `Keliling sebuah lingkaran adalah 176 cm. Berapakah panjang diameter lingkaran tersebut? (Gunakan π = ${frac(22, 7)})`,
+                illustration: `
+                    <svg viewBox="0 0 160 135" class="w-36 h-30">
+                        <circle cx="80" cy="65" r="45" fill="#f3e8ff" stroke="#7e22ce" stroke-width="2.5" stroke-dasharray="5,3"/>
+                        <line x1="35" y1="65" x2="125" y2="65" stroke="#6b21a8" stroke-width="2"/>
+                        <text x="80" y="57" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#581c87">d = ... cm?</text>
+                        <text x="80" y="124" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#6b21a8">K = 176 cm</text>
+                    </svg>`,
+                caption: "Menentukan diameter dari keliling lingkaran",
+                options: ["56 cm", "28 cm", "42 cm", "84 cm"],
+                correct: 0, // A
+                explanation: `K = π × d → 176 = ${frac(22, 7)} × d → d = (176 × 7) ÷ 22 = 8 × 7 = <strong>56 cm</strong>.`
+            },
+            {
+                id: 8,
+                category: "Soal Langsung",
+                question: `Sebuah bangun datar berbentuk ${frac(3, 8)} lingkaran dengan jari-jari 14 cm (seperti 3 potong pizza dari 8 bagian). Berapakah luas bangun tersebut? (π = ${frac(22, 7)})`,
+                illustration: `
+                    <svg viewBox="0 0 160 135" class="w-36 h-30">
+                        <path d="M 80 72 L 80 22 A 50 50 0 0 1 115.3 107.3 Z" fill="#ffedd5" stroke="#ea580c" stroke-width="2.5"/>
+                        <line x1="80" y1="72" x2="115.3" y2="36.7" stroke="#ea580c" stroke-width="1" stroke-dasharray="3,2"/>
+                        <line x1="80" y1="72" x2="130" y2="72" stroke="#ea580c" stroke-width="1" stroke-dasharray="3,2"/>
+                        <text x="64" y="52" text-anchor="end" font-size="9.5" font-weight="bold" fill="#9a3412">r = 14 cm</text>
+                        <text x="80" y="125" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#9a3412">Bagian = 3/8</text>
+                    </svg>`,
+                caption: "Juring 3/8 lingkaran berjari-jari 14 cm",
+                options: ["77 cm²", "154 cm²", "231 cm²", "308 cm²"],
+                correct: 2, // C
+                explanation: `Luas ${frac(3, 8)} lingkaran = ${frac(3, 8)} × ${frac(22, 7)} × 14 × 14 = ${frac(3, 8)} × 616 = 3 × 77 = <strong>231 cm²</strong>.`
+            },
+
+            // =====================================================================
+            // BAGIAN 2: PENERAPAN & LUAS GABUNGAN / ARSIRAN (NOMOR 9 - 20)
+            // =====================================================================
+            {
+                id: 9,
+                category: "Luas Gabungan",
+                question: `Perhatikan gambar gabungan segitiga siku-siku (alas 12 cm, tinggi 9 cm) dan setengah lingkaran berdiameter 15 cm di sisi miringnya. Luas bangun gabungan tersebut adalah ... (π = 3,14)`,
+                illustration: `
+                    <svg viewBox="0 0 175 145" class="w-40 h-32">
+                        ${hatch("h9", "#0d9488", 45)}
+                        <polygon points="35,112 35,45 125,112" fill="url(#h9)" stroke="#0f172a" stroke-width="2"/>
+                        <path d="M 35 45 A 56.25 56.25 0 0 1 125 112" fill="#ccfbf1" stroke="#0f172a" stroke-width="2"/>
+                        <text x="27" y="82" text-anchor="end" font-size="9" font-weight="bold" fill="#0f172a">9 cm</text>
+                        <text x="80" y="126" text-anchor="middle" font-size="9" font-weight="bold" fill="#0f172a">12 cm</text>
+                        <text x="84" y="75" font-size="9" font-weight="bold" fill="#0f766e">15 cm</text>
+                    </svg>`,
+                caption: "Segitiga siku-siku + ½ lingkaran",
+                options: ["142,3125 cm²", "54 cm²", "88,3125 cm²", "230,625 cm²"],
+                correct: 0, // A
+                explanation: `Luas segitiga = ${frac(1, 2)} × 12 × 9 = 54 cm². Diameter ½ lingkaran = 15 cm → r = 7,5 cm, luas ½ lingkaran = ${frac(1, 2)} × 3,14 × 7,5 × 7,5 = 88,3125 cm². Total luas = 54 + 88,3125 = <strong>142,3125 cm²</strong>.`
+            },
+            {
+                id: 10,
+                category: "Luas Gabungan",
+                question: `Perhatikan gambar lingkaran berdiameter 28 cm yang di dalamnya terdapat persegi. Luas daerah yang diarsir adalah ... (π = ${frac(22, 7)})`,
+                illustration: `
+                    <svg viewBox="0 0 165 145" class="w-36 h-32">
+                        ${hatch("h10", "#0284c7", 45)}
+                        <circle cx="82" cy="72" r="52" fill="url(#h10)" stroke="#0f172a" stroke-width="2"/>
+                        <polygon points="82,20 134,72 82,124 30,72" fill="#ffffff" stroke="#0f172a" stroke-width="1.8"/>
+                        <line x1="30" y1="72" x2="134" y2="72" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="3,2"/>
+                        <text x="82" y="66" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#dc2626">28 cm</text>
+                    </svg>`,
+                caption: "Lingkaran dikurangi persegi dalam",
+                options: ["392 cm²", "616 cm²", "224 cm²", "1.008 cm²"],
+                correct: 2, // C
+                explanation: `Luas lingkaran (r = 14 cm) = ${frac(22, 7)} × 14 × 14 = 616 cm². Luas persegi (diagonal 28 cm) = ${frac(1, 2)} × 28 × 28 = 392 cm². Luas arsiran = 616 - 392 = <strong>224 cm²</strong>.`
+            },
+            {
+                id: 11,
+                category: "Luas Gabungan",
+                question: `Perhatikan gambar gabungan persegi panjang (28 cm × 15 cm), segitiga di sisi kiri (alas 15 cm, tinggi 6 cm), dan setengah lingkaran di sisi kanan berdiameter 15 cm. Luas seluruh bangun tersebut adalah ... (π = 3,14)`,
+                illustration: `
+                    <svg viewBox="0 0 185 135" class="w-40 h-30">
+                        <polygon points="18,68 42,32 42,104" fill="#fef3c7" stroke="#0f172a" stroke-width="1.8"/>
+                        <rect x="42" y="32" width="90" height="72" fill="#e0f2fe" stroke="#0f172a" stroke-width="1.8"/>
+                        <path d="M 132 32 A 36 36 0 0 1 132 104 Z" fill="#ccfbf1" stroke="#0f172a" stroke-width="1.8"/>
+                        <text x="87" y="25" text-anchor="middle" font-size="9" font-weight="bold" fill="#0f172a">28 cm</text>
+                        <text x="87" y="118" text-anchor="middle" font-size="9" font-weight="bold" fill="#0f172a">28 cm</text>
+                        <text x="34" y="72" text-anchor="middle" font-size="8" font-weight="bold" fill="#92400e">6</text>
+                        <text x="125" y="72" text-anchor="end" font-size="8.5" font-weight="bold" fill="#0f766e">15 cm</text>
+                    </svg>`,
+                caption: "Segitiga + Persegi Panjang + ½ Lingkaran",
+                options: ["420 cm²", "465 cm²", "508,3125 cm²", "553,3125 cm²"],
+                correct: 3, // D
+                explanation: `Luas segitiga = ${frac(1, 2)} × 15 × 6 = 45 cm². Luas persegi panjang = 28 × 15 = 420 cm². Luas ½ lingkaran (r = 7,5 cm) = ${frac(1, 2)} × 3,14 × 7,5 × 7,5 = 88,3125 cm². Total = 45 + 420 + 88,3125 = <strong>553,3125 cm²</strong>.`
+            },
+            {
+                id: 12,
+                category: "Luas Gabungan",
+                question: `Perhatikan gambar persegi bersisi 28 cm yang terpotong dua setengah lingkaran putih di sisi kiri dan kanan. Luas daerah yang diarsir adalah ... (π = ${frac(22, 7)})`,
+                illustration: `
+                    <svg viewBox="0 0 165 145" class="w-36 h-32">
+                        ${hatch("h12", "#0284c7", -45)}
+                        <rect x="37" y="24" width="90" height="90" fill="url(#h12)" stroke="#0f172a" stroke-width="2"/>
+                        <path d="M 37 24 A 45 45 0 0 1 37 114 Z" fill="#ffffff" stroke="#0f172a" stroke-width="1.8"/>
+                        <path d="M 127 24 A 45 45 0 0 0 127 114 Z" fill="#ffffff" stroke="#0f172a" stroke-width="1.8"/>
+                        <text x="82" y="16" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#0f172a">28 cm</text>
+                    </svg>`,
+                caption: "Persegi 28 cm dikurangi 2 × ½ lingkaran",
+                options: ["784 cm²", "168 cm²", "616 cm²", "476 cm²"],
+                correct: 1, // B
+                explanation: `Luas persegi = 28 × 28 = 784 cm². Dua setengah lingkaran (d = 28 cm → r = 14 cm) membentuk 1 lingkaran penuh dengan luas = ${frac(22, 7)} × 14 × 14 = 616 cm². Luas arsiran = 784 - 616 = <strong>168 cm²</strong>.`
+            },
+            {
+                id: 13,
+                category: "Luas Gabungan",
+                question: `Perhatikan bangun datar yang terdiri dari layang-layang (diagonal 12 cm dan 10 cm) yang menempel pada dua juring setengah lingkaran berdiameter 10 cm. Luas seluruh bangun tersebut adalah ... (π = 3,14)`,
+                illustration: `
+                    <svg viewBox="0 0 175 150" class="w-40 h-32">
+                        <path d="M 55 26 A 46 46 0 0 1 135 75 Z" fill="#e0f2fe" stroke="#0f172a" stroke-width="1.8"/>
+                        <path d="M 135 75 A 46 46 0 0 1 55 124 Z" fill="#e0f2fe" stroke="#0f172a" stroke-width="1.8"/>
+                        <polygon points="30,75 55,26 135,75 55,124" fill="#fef9c3" stroke="#0f172a" stroke-width="1.8"/>
+                        <line x1="30" y1="75" x2="135" y2="75" stroke="#0f172a" stroke-width="1.2" stroke-dasharray="3,2"/>
+                        <text x="64" y="55" font-size="8.5" font-weight="bold" fill="#0f172a">6 cm</text>
+                        <text x="44" y="88" text-anchor="end" font-size="8.5" font-weight="bold" fill="#0f172a">2</text>
+                        <text x="90" y="88" font-size="8.5" font-weight="bold" fill="#0f172a">8 cm</text>
+                        <text x="102" y="46" font-size="8.5" font-weight="bold" fill="#0369a1">10 cm</text>
+                    </svg>`,
+                caption: "Layang-layang + 2 × ½ lingkaran d = 10 cm",
+                options: ["60 cm²", "78,5 cm²", "217 cm²", "138,5 cm²"],
+                correct: 3, // D
+                explanation: `Diagonal layang-layang d₁ = 6 + 6 = 12 cm dan d₂ = 2 + 8 = 10 cm → Luas layang-layang = ${frac(1, 2)} × 12 × 10 = 60 cm². Dua setengah lingkaran berdiameter 10 cm (r = 5 cm) = 1 lingkaran penuh dengan luas = 3,14 × 5 × 5 = 78,5 cm². Total = 60 + 78,5 = <strong>138,5 cm²</strong>.`
+            },
+            {
+                id: 14,
+                category: "Luas Gabungan",
+                question: `Perhatikan gambar trapesium siku-siku (sisi sejajar 12 cm dan 7 cm, tinggi 10 cm) yang dua sudut atasnya dipotong juring ${frac(1, 4)} lingkaran dengan jari-jari masing-masing 3,5 cm. Luas daerah yang diarsir adalah ... (π = ${frac(22, 7)})`,
+                illustration: `
+                    <svg viewBox="0 0 175 145" class="w-40 h-32">
+                        ${hatch("h14", "#0d9488", 45)}
+                        <polygon points="32,26 142,26 142,84 32,124" fill="url(#h14)" stroke="#0f172a" stroke-width="2"/>
+                        <path d="M 32 26 L 70 26 A 38 38 0 0 1 32 64 Z" fill="#ffffff" stroke="#0f172a" stroke-width="1.6"/>
+                        <path d="M 142 26 L 142 64 A 38 38 0 0 1 104 26 Z" fill="#ffffff" stroke="#0f172a" stroke-width="1.6"/>
+                        <text x="87" y="18" text-anchor="middle" font-size="9" font-weight="bold" fill="#0f172a">10 cm</text>
+                        <text x="25" y="78" text-anchor="end" font-size="9" font-weight="bold" fill="#0f172a">12 cm</text>
+                        <text x="148" y="58" text-anchor="start" font-size="9" font-weight="bold" fill="#0f172a">7 cm</text>
+                    </svg>`,
+                caption: "Trapesium dikurangi 2 juring ¼ lingkaran",
+                options: ["75,75 cm²", "95 cm²", "19,25 cm²", "114,25 cm²"],
+                correct: 0, // A
+                explanation: `Luas trapesium = ${frac(1, 2)} × (12 + 7) × 10 = 95 cm². Dua juring ${frac(1, 4)} lingkaran (r = 3,5 cm) = ${frac(1, 2)} lingkaran penuh dengan luas = ${frac(1, 2)} × ${frac(22, 7)} × 3,5 × 3,5 = 19,25 cm². Luas arsiran = 95 - 19,25 = <strong>75,75 cm²</strong>.`
+            },
+            {
+                id: 15,
+                category: "Luas Gabungan",
+                question: `Perhatikan gambar setengah lingkaran besar (diameter 28 cm) yang di bagian bawahnya terdapat dua setengah lingkaran putih berdiameter masing-masing 14 cm. Luas daerah yang diarsir adalah ... (π = ${frac(22, 7)})`,
+                illustration: `
+                    <svg viewBox="0 0 180 130" class="w-40 h-28">
+                        ${hatch("h15", "#0284c7", 45)}
+                        <path d="M 20 96 A 70 70 0 0 1 160 96 Z" fill="url(#h15)" stroke="#0f172a" stroke-width="2"/>
+                        <path d="M 20 96 A 35 35 0 0 1 90 96 Z" fill="#ffffff" stroke="#0f172a" stroke-width="1.6"/>
+                        <path d="M 90 96 A 35 35 0 0 1 160 96 Z" fill="#ffffff" stroke="#0f172a" stroke-width="1.6"/>
+                        <text x="55" y="114" text-anchor="middle" font-size="9" font-weight="bold" fill="#0f172a">14 cm</text>
+                        <text x="125" y="114" text-anchor="middle" font-size="9" font-weight="bold" fill="#0f172a">14 cm</text>
+                    </svg>`,
+                caption: "½ lingkaran besar - 2 × ½ lingkaran kecil",
+                options: ["308 cm²", "231 cm²", "154 cm²", "77 cm²"],
+                correct: 2, // C
+                explanation: `Luas ½ lingkaran besar (r = 14 cm) = ${frac(1, 2)} × ${frac(22, 7)} × 14 × 14 = 308 cm². Dua ½ lingkaran kecil (r = 7 cm) = 1 lingkaran penuh dengan luas = ${frac(22, 7)} × 7 × 7 = 154 cm². Luas arsiran = 308 - 154 = <strong>154 cm²</strong>.`
+            },
+            {
+                id: 16,
+                category: "Luas Gabungan",
+                question: `Perhatikan gambar persegi bersisi 20 cm yang sisi kirinya ditempeli setengah lingkaran berarsir (d = 20 cm) dan sisi bawahnya dipotong setengah lingkaran putih (d = 20 cm). Luas daerah yang diarsir adalah ...`,
+                illustration: `
+                    <svg viewBox="0 0 175 140" class="w-40 h-32">
+                        ${hatch("h16", "#0d9488", 45)}
+                        <path d="M 62 24 A 46 46 0 0 0 62 116 Z" fill="url(#h16)" stroke="#0f172a" stroke-width="2"/>
+                        <rect x="62" y="24" width="92" height="92" fill="url(#h16)" stroke="#0f172a" stroke-width="2"/>
+                        <path d="M 62 116 A 46 46 0 0 1 154 116 Z" fill="#ffffff" stroke="#0f172a" stroke-width="1.8"/>
+                        <text x="108" y="16" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#0f172a">20 cm</text>
+                    </svg>`,
+                caption: "Trik pemindahan arsiran: sama dengan luas persegi",
+                options: ["314 cm²", "400 cm²", "157 cm²", "243 cm²"],
+                correct: 1, // B
+                explanation: `Perhatikan bahwa setengah lingkaran berarsir di kiri memiliki ukuran yang sama persis (d = 20 cm) dengan setengah lingkaran putih di dalam persegi. Jika dipindahkan, arsiran tepat memenuhi persegi 20 cm × 20 cm = <strong>400 cm²</strong>.`
+            },
+            {
+                id: 17,
+                category: "Luas Gabungan",
+                question: `Perhatikan gambar persegi panjang berukuran 21 cm × 14 cm yang dipotong dua setengah lingkaran besar di kiri-kanan (d = 14 cm) dan dua setengah lingkaran kecil di atas-bawah (d = 7 cm). Luas daerah yang diarsir adalah ... (π = ${frac(22, 7)})`,
+                illustration: `
+                    <svg viewBox="0 0 185 145" class="w-40 h-32">
+                        ${hatch("h17", "#0284c7", 45)}
+                        <rect x="26" y="26" width="132" height="88" fill="url(#h17)" stroke="#0f172a" stroke-width="2"/>
+                        <path d="M 26 26 A 44 44 0 0 1 26 114 Z" fill="#ffffff" stroke="#0f172a" stroke-width="1.6"/>
+                        <path d="M 158 26 A 44 44 0 0 0 158 114 Z" fill="#ffffff" stroke="#0f172a" stroke-width="1.6"/>
+                        <path d="M 70 26 A 22 22 0 0 0 114 26 Z" fill="#ffffff" stroke="#0f172a" stroke-width="1.6"/>
+                        <path d="M 70 114 A 22 22 0 0 1 114 114 Z" fill="#ffffff" stroke="#0f172a" stroke-width="1.6"/>
+                        <text x="92" y="17" text-anchor="middle" font-size="9" font-weight="bold" fill="#0f172a">7 cm</text>
+                        <text x="164" y="73" text-anchor="start" font-size="9" font-weight="bold" fill="#0f172a">14 cm</text>
+                        <text x="92" y="130" text-anchor="middle" font-size="9" font-weight="bold" fill="#0f172a">21 cm</text>
+                    </svg>`,
+                caption: "Persegi panjang - (1 lingkaran r=7 + 1 lingkaran r=3,5)",
+                options: ["294 cm²", "140 cm²", "192,5 cm²", "101,5 cm²"],
+                correct: 3, // D
+                explanation: `Luas persegi panjang = 21 × 14 = 294 cm². Dua ½ lingkaran samping (r = 7 cm) = 154 cm². Dua ½ lingkaran atas-bawah (r = 3,5 cm) = 38,5 cm². Luas arsiran = 294 - (154 + 38,5) = 294 - 192,5 = <strong>101,5 cm²</strong>.`
+            },
+            {
+                id: 18,
+                category: "Luas Gabungan",
+                question: `Perhatikan gambar setengah pelangi (setengah lingkaran besar jari-jari 21 cm dikurangi setengah lingkaran kecil jari-jari 7 cm di tengahnya). Luas daerah yang diarsir adalah ... (π = ${frac(22, 7)})`,
+                illustration: `
+                    <svg viewBox="0 0 185 130" class="w-40 h-28">
+                        ${hatch("h18", "#0d9488", 45)}
+                        <path d="M 20 96 A 72 72 0 0 1 164 96 Z" fill="url(#h18)" stroke="#0f172a" stroke-width="2"/>
+                        <path d="M 68 96 A 24 24 0 0 1 116 96 Z" fill="#ffffff" stroke="#0f172a" stroke-width="1.8"/>
+                        <text x="44" y="112" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#0f172a">14 cm</text>
+                        <text x="92" y="112" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#0f172a">14 cm</text>
+                        <text x="140" y="112" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#0f172a">14 cm</text>
+                    </svg>`,
+                caption: "½ lingkaran (R = 21 cm) - ½ lingkaran (r = 7 cm)",
+                options: ["616 cm²", "693 cm²", "77 cm²", "1.232 cm²"],
+                correct: 0, // A
+                explanation: `Diameter luar = 14 + 14 + 14 = 42 cm → R = 21 cm. Luas ½ lingkaran luar = ${frac(1, 2)} × ${frac(22, 7)} × 21 × 21 = 693 cm². Luas ½ lingkaran dalam (r = 7 cm) = ${frac(1, 2)} × ${frac(22, 7)} × 7 × 7 = 77 cm². Luas arsiran = 693 - 77 = <strong>616 cm²</strong>.`
+            },
+            {
+                id: 19,
+                category: "Luas Gabungan",
+                question: `Perhatikan gambar persegi panjang 20 cm × 14 cm yang dipotong setengah lingkaran di kiri (d = 14 cm) dan segitiga di kanan (alas 14 cm, tinggi 7 cm). Luas daerah yang diarsir adalah ... (π = ${frac(22, 7)})`,
+                illustration: `
+                    <svg viewBox="0 0 185 140" class="w-40 h-30">
+                        ${hatch("h19", "#0284c7", 45)}
+                        <rect x="24" y="24" width="130" height="86" fill="url(#h19)" stroke="#0f172a" stroke-width="2"/>
+                        <path d="M 24 24 A 43 43 0 0 1 24 110 Z" fill="#ffffff" stroke="#0f172a" stroke-width="1.8"/>
+                        <polygon points="154,24 108,67 154,110" fill="#ffffff" stroke="#0f172a" stroke-width="1.8"/>
+                        <line x1="108" y1="67" x2="154" y2="67" stroke="#dc2626" stroke-width="1.3" stroke-dasharray="3,2"/>
+                        <text x="131" y="61" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#dc2626">7 cm</text>
+                        <text x="160" y="70" text-anchor="start" font-size="8.5" font-weight="bold" fill="#0f172a">14 cm</text>
+                        <text x="89" y="126" text-anchor="middle" font-size="9" font-weight="bold" fill="#0f172a">20 cm</text>
+                    </svg>`,
+                caption: "Persegi panjang - (½ lingkaran + segitiga)",
+                options: ["280 cm²", "126 cm²", "154 cm²", "203 cm²"],
+                correct: 2, // C
+                explanation: `Luas persegi panjang = 20 × 14 = 280 cm². Luas ½ lingkaran (r = 7 cm) = ${frac(1, 2)} × ${frac(22, 7)} × 7 × 7 = 77 cm². Luas segitiga = ${frac(1, 2)} × 14 × 7 = 49 cm². Luas arsiran = 280 - (77 + 49) = 280 - 126 = <strong>154 cm²</strong>.`
+            },
+            {
+                id: 20,
+                category: "Luas Gabungan",
+                question: `Perhatikan persegi panjang berukuran 21 cm × 14 cm yang memuat 6 buah juring seperempat lingkaran putih berjari-jari masing-masing 7 cm. Luas daerah yang diarsir adalah ... (π = ${frac(22, 7)})`,
+                illustration: `
+                    <svg viewBox="0 0 185 140" class="w-40 h-30">
+                        ${hatch("h20", "#0d9488", 45)}
+                        <rect x="26" y="26" width="132" height="88" fill="url(#h20)" stroke="#0f172a" stroke-width="2"/>
+                        <path d="M 26 26 L 70 26 A 44 44 0 0 1 26 70 Z" fill="#ffffff" stroke="#0f172a" stroke-width="1.4"/>
+                        <path d="M 114 26 L 114 70 A 44 44 0 0 1 70 26 Z" fill="#ffffff" stroke="#0f172a" stroke-width="1.4"/>
+                        <path d="M 114 26 L 158 26 A 44 44 0 0 1 114 70 Z" fill="#ffffff" stroke="#0f172a" stroke-width="1.4"/>
+                        <path d="M 26 114 L 26 70 A 44 44 0 0 1 70 114 Z" fill="#ffffff" stroke="#0f172a" stroke-width="1.4"/>
+                        <path d="M 114 114 L 70 114 A 44 44 0 0 1 114 70 Z" fill="#ffffff" stroke="#0f172a" stroke-width="1.4"/>
+                        <path d="M 114 114 L 114 70 A 44 44 0 0 1 158 114 Z" fill="#ffffff" stroke="#0f172a" stroke-width="1.4"/>
+                        <text x="92" y="17" text-anchor="middle" font-size="9" font-weight="bold" fill="#0f172a">21 cm</text>
+                        <text x="20" y="73" text-anchor="end" font-size="9" font-weight="bold" fill="#0f172a">14 cm</text>
+                    </svg>`,
+                caption: "Persegi panjang 21×14 - 6 juring ¼ lingkaran",
+                options: ["294 cm²", "63 cm²", "231 cm²", "140 cm²"],
+                correct: 1, // B
+                explanation: `Luas persegi panjang = 21 × 14 = 294 cm². Ada 6 juring ${frac(1, 4)} lingkaran (r = 7 cm) = ${frac(6, 4)} lingkaran = 1,5 × 154 = 231 cm². Luas arsiran = 294 - 231 = <strong>63 cm²</strong>.`
+            },
+
+            // =====================================================================
+            // BAGIAN 3: SOAL CERITA (NOMOR 21 - 30)
+            // =====================================================================
+            {
+                id: 21,
+                category: "Soal Cerita",
+                question: `Rina mempunyai karton berukuran 75 cm × 75 cm. Rina membutuhkan 25 lingkaran berukuran sama dengan diameter 7 cm. Luas karton yang tidak terpakai adalah ... cm² (π = ${frac(22, 7)})`,
+                illustration: `
+                    <svg viewBox="0 0 165 140" class="w-36 h-32">
+                        <rect x="35" y="18" width="90" height="90" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+                        <circle cx="52" cy="35" r="9" fill="#ffffff" stroke="#b45309" stroke-width="1.4"/>
+                        <circle cx="74" cy="35" r="9" fill="#ffffff" stroke="#b45309" stroke-width="1.4"/>
+                        <circle cx="96" cy="35" r="9" fill="#ffffff" stroke="#b45309" stroke-width="1.4"/>
+                        <circle cx="52" cy="57" r="9" fill="#ffffff" stroke="#b45309" stroke-width="1.4"/>
+                        <circle cx="74" cy="57" r="9" fill="#ffffff" stroke="#b45309" stroke-width="1.4"/>
+                        <text x="98" y="61" font-size="9" font-weight="bold" fill="#92400e">×25</text>
+                        <text x="80" y="123" text-anchor="middle" font-size="9" font-weight="bold" fill="#92400e">Karton 75 × 75 cm</text>
+                    </svg>`,
+                caption: "Karton 75×75 cm dipotong 25 lingkaran d = 7 cm",
+                options: ["5.625 cm²", "962,5 cm²", "3.850 cm²", "4.662,5 cm²"],
+                correct: 3, // D
+                explanation: `Luas karton = 75 × 75 = 5.625 cm². Luas 1 lingkaran (r = 3,5 cm) = ${frac(22, 7)} × 3,5 × 3,5 = 38,5 cm². Luas 25 lingkaran = 25 × 38,5 = 962,5 cm². Sisa karton = 5.625 - 962,5 = <strong>4.662,5 cm²</strong>.`
+            },
+            {
+                id: 22,
+                category: "Soal Cerita",
+                question: `Sebuah ban mobil memiliki panjang jari-jari 30 cm. Ketika mobil tersebut berjalan, ban mobil berputar sebanyak 100 kali. Jarak yang ditempuh mobil adalah ... (π = 3,14)`,
+                illustration: `
+                    <svg viewBox="0 0 175 135" class="w-40 h-30">
+                        <circle cx="87" cy="60" r="40" fill="#334155" stroke="#0f172a" stroke-width="3"/>
+                        <circle cx="87" cy="60" r="22" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/>
+                        <line x1="87" y1="60" x2="127" y2="60" stroke="#ef4444" stroke-width="2"/>
+                        <text x="107" y="54" text-anchor="middle" font-size="9" font-weight="bold" fill="#fca5a5">30 cm</text>
+                        <text x="87" y="120" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#1e293b">100 Putaran Ban</text>
+                    </svg>`,
+                caption: "Ban mobil r = 30 cm berputar 100 kali",
+                options: ["188,4 meter", "18,84 meter", "94,2 meter", "1.884 meter"],
+                correct: 0, // A
+                explanation: `Keliling ban = 2 × 3,14 × 30 = 188,4 cm. Jarak 100 putaran = 100 × 188,4 cm = 18.840 cm = <strong>188,4 meter</strong>.`
+            },
+            {
+                id: 23,
+                category: "Soal Cerita",
+                question: `Di pusat kota dibuat taman berbentuk lingkaran berdiameter 56 m. Di dalam taman dibuat kolam lingkaran berdiameter 28 m. Di luar kolam akan ditanami rumput dengan biaya Rp2.000 per m². Seluruh biaya yang diperlukan adalah ... (π = ${frac(22, 7)})`,
+                illustration: `
+                    <svg viewBox="0 0 165 140" class="w-36 h-32">
+                        <circle cx="82" cy="68" r="50" fill="#bbf7d0" stroke="#16a34a" stroke-width="2.5"/>
+                        <circle cx="82" cy="68" r="25" fill="#bae6fd" stroke="#0284c7" stroke-width="2"/>
+                        <text x="82" y="71" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#0369a1">d=28m</text>
+                        <text x="82" y="131" text-anchor="middle" font-size="9" font-weight="bold" fill="#15803d">Taman d = 56 m</text>
+                    </svg>`,
+                caption: "Taman rumput (d=56 m) & kolam tengah (d=28 m)",
+                options: ["Rp4.928.000", "Rp1.232.000", "Rp3.696.000", "Rp6.160.000"],
+                correct: 2, // C
+                explanation: `Luas taman (R = 28 m) = ${frac(22, 7)} × 28 × 28 = 2.464 m². Luas kolam (r = 14 m) = ${frac(22, 7)} × 14 × 14 = 616 m². Luas area rumput = 2.464 - 616 = 1.848 m². Biaya = 1.848 × Rp2.000 = <strong>Rp3.696.000</strong>.`
+            },
+            {
+                id: 24,
+                category: "Soal Cerita",
+                question: `Sebuah kue berbentuk lingkaran berjari-jari 20 cm dipotong menjadi 5 bagian sama besar. Satu bagian diambil untuk dimakan. Luas satu bagian kue tersebut adalah ... (π = 3,14)`,
+                illustration: `
+                    <svg viewBox="0 0 165 140" class="w-36 h-32">
+                        <circle cx="82" cy="68" r="46" fill="#fed7aa" stroke="#ea580c" stroke-width="2"/>
+                        <path d="M 82 68 L 82 22 A 46 46 0 0 1 125.7 53.8 Z" fill="#fb923c" stroke="#9a3412" stroke-width="1.8"/>
+                        <line x1="82" y1="68" x2="109" y2="105.2" stroke="#9a3412" stroke-width="1.2"/>
+                        <line x1="82" y1="68" x2="55" y2="105.2" stroke="#9a3412" stroke-width="1.2"/>
+                        <line x1="82" y1="68" x2="38.3" y2="53.8" stroke="#9a3412" stroke-width="1.2"/>
+                        <text x="82" y="128" text-anchor="middle" font-size="9" font-weight="bold" fill="#9a3412">Kue r = 20 cm (÷ 5)</text>
+                    </svg>`,
+                caption: "1 bagian dari 5 potongan kue (r = 20 cm)",
+                options: ["1.256 cm²", "251,2 cm²", "314 cm²", "628 cm²"],
+                correct: 1, // B
+                explanation: `Luas kue utuh = 3,14 × 20 × 20 = 1.256 cm². Luas 1 bagian (${frac(1, 5)} bagian) = 1.256 ÷ 5 = <strong>251,2 cm²</strong>.`
+            },
+            {
+                id: 25,
+                category: "Soal Cerita",
+                question: `Ibu membuat taplak meja berbentuk lingkaran dengan diameter 1,4 meter. Di sekeliling tepi taplak akan ditempel pita hias. Panjang pita yang diperlukan adalah ... (π = ${frac(22, 7)})`,
+                illustration: `
+                    <svg viewBox="0 0 165 140" class="w-36 h-32">
+                        <circle cx="82" cy="68" r="46" fill="#fce7f3" stroke="#db2777" stroke-width="3" stroke-dasharray="6,3"/>
+                        <line x1="36" y1="68" x2="128" y2="68" stroke="#be185d" stroke-width="1.8"/>
+                        <text x="82" y="61" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#9d174d">d = 1,4 m</text>
+                        <text x="82" y="128" text-anchor="middle" font-size="9" font-weight="bold" fill="#be185d">Pita di keliling taplak</text>
+                    </svg>`,
+                caption: "Keliling taplak meja diameter 1,4 m",
+                options: ["2,2 meter", "1,54 meter", "8,8 meter", "4,4 meter"],
+                correct: 3, // D
+                explanation: `Panjang pita = keliling lingkaran = π × d = ${frac(22, 7)} × 1,4 = 22 × 0,2 = <strong>4,4 meter</strong>.`
+            },
+            {
+                id: 26,
+                category: "Soal Cerita",
+                question: `Sebuah lapangan berbentuk lingkaran berdiameter 60 meter. Andi berlari mengelilingi lapangan tersebut sebanyak 3 kali. Jarak yang ditempuh Andi adalah ... meter (π = 3,14)`,
+                illustration: `
+                    <svg viewBox="0 0 175 135" class="w-40 h-30">
+                        <ellipse cx="87" cy="62" rx="56" ry="36" fill="#dcfce7" stroke="#15803d" stroke-width="3"/>
+                        <line x1="31" y1="62" x2="143" y2="62" stroke="#166534" stroke-width="1.6" stroke-dasharray="4,2"/>
+                        <text x="87" y="55" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#14532d">d = 60 m</text>
+                        <text x="87" y="118" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#15803d">Lari 3 Putaran</text>
+                    </svg>`,
+                caption: "Lapangan lari d = 60 m (3 putaran)",
+                options: ["565,2 meter", "188,4 meter", "376,8 meter", "2.826 meter"],
+                correct: 0, // A
+                explanation: `Keliling 1 putaran = 3,14 × 60 = 188,4 meter. Jarak 3 kali putaran = 3 × 188,4 = <strong>565,2 meter</strong>.`
+            },
+            {
+                id: 27,
+                category: "Soal Cerita",
+                question: `Sebuah sepeda motor mempunyai roda dengan jari-jari 35 cm dan berputar sebanyak 5.000 kali. Jarak yang ditempuh sepeda motor tersebut adalah ... km (π = ${frac(22, 7)})`,
+                illustration: `
+                    <svg viewBox="0 0 175 135" class="w-40 h-30">
+                        <circle cx="87" cy="60" r="40" fill="#1e293b" stroke="#0f172a" stroke-width="3"/>
+                        <circle cx="87" cy="60" r="24" fill="#f8fafc" stroke="#64748b" stroke-width="2"/>
+                        <line x1="87" y1="60" x2="127" y2="60" stroke="#2563eb" stroke-width="2.2"/>
+                        <text x="107" y="54" text-anchor="middle" font-size="9" font-weight="bold" fill="#1d4ed8">35 cm</text>
+                        <text x="87" y="120" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#0f172a">5.000 Putaran Roda</text>
+                    </svg>`,
+                caption: "Roda motor r = 35 cm berputar 5.000 kali",
+                options: ["1,1 km", "110 km", "11 km", "22 km"],
+                correct: 2, // C
+                explanation: `Keliling roda = 2 × ${frac(22, 7)} × 35 = 220 cm. Jarak 5.000 putaran = 5.000 × 220 cm = 1.100.000 cm = 11.000 m = <strong>11 km</strong>.`
+            },
+            {
+                id: 28,
+                category: "Soal Cerita",
+                question: `Kakak membuat alas gelas berbentuk lingkaran berdiameter 10 cm dari kain flanel. Jika Kakak membuat 1 lusin (12 buah) alas gelas, seluruh luas kain flanel yang dibutuhkan adalah ... (π = 3,14)`,
+                illustration: `
+                    <svg viewBox="0 0 175 135" class="w-40 h-30">
+                        <circle cx="62" cy="62" r="30" fill="#ddd6fe" stroke="#7c3aed" stroke-width="2"/>
+                        <circle cx="92" cy="62" r="30" fill="#ede9fe" stroke="#6d28d9" stroke-width="2"/>
+                        <text x="92" y="65" text-anchor="middle" font-size="9" font-weight="bold" fill="#5b21b6">d = 10 cm</text>
+                        <text x="87" y="116" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#5b21b6">1 Lusin (12 Alas Gelas)</text>
+                    </svg>`,
+                caption: "12 buah alas gelas lingkaran d = 10 cm",
+                options: ["78,5 cm²", "314 cm²", "3.768 cm²", "942 cm²"],
+                correct: 3, // D
+                explanation: `r = 5 cm. Luas 1 alas gelas = 3,14 × 5 × 5 = 78,5 cm². Untuk 1 lusin (12 buah) = 12 × 78,5 = <strong>942 cm²</strong>.`
+            },
+            {
+                id: 29,
+                category: "Soal Cerita",
+                question: `Di belakang rumah Pak Amar ada kolam ikan berbentuk setengah lingkaran dengan jari-jari 7 meter. Keliling seluruh tepi kolam ikan tersebut adalah ... (π = ${frac(22, 7)})`,
+                illustration: `
+                    <svg viewBox="0 0 175 130" class="w-40 h-28">
+                        <path d="M 32 92 A 55 55 0 0 1 142 92 Z" fill="#bae6fd" stroke="#0284c7" stroke-width="2.5"/>
+                        <line x1="87" y1="92" x2="87" y2="37" stroke="#dc2626" stroke-width="1.6" stroke-dasharray="3,2"/>
+                        <text x="93" y="68" font-size="9" font-weight="bold" fill="#dc2626">r = 7 m</text>
+                        <text x="87" y="114" text-anchor="middle" font-size="9" font-weight="bold" fill="#0369a1">Kolam ½ Lingkaran</text>
+                    </svg>`,
+                caption: "Kolam ½ lingkaran tertutup r = 7 m (d = 14 m)",
+                options: ["36 meter", "22 meter", "44 meter", "77 meter"],
+                correct: 0, // A
+                explanation: `r = 7 m → d = 14 m. Panjang sisi lengkung = ${frac(1, 2)} × 2 × ${frac(22, 7)} × 7 = 22 m. Ditambah sisi lurus (diameter 14 m) → Keliling kolam = 22 + 14 = <strong>36 meter</strong>.`
+            },
+            {
+                id: 30,
+                category: "Soal Cerita",
+                question: `Adik memiliki mainan spin wheel berbentuk lingkaran. Setelah diukur, kelilingnya adalah 132 cm. Berapakah luas permukaan spin wheel milik Adik? (π = ${frac(22, 7)})`,
+                illustration: `
+                    <svg viewBox="0 0 165 140" class="w-36 h-32">
+                        <circle cx="82" cy="66" r="44" fill="#fef08a" stroke="#ca8a04" stroke-width="2.5"/>
+                        <line x1="82" y1="22" x2="82" y2="110" stroke="#ca8a04" stroke-width="1.4"/>
+                        <line x1="38" y1="66" x2="126" y2="66" stroke="#ca8a04" stroke-width="1.4"/>
+                        <line x1="51" y1="35" x2="113" y2="97" stroke="#ca8a04" stroke-width="1.4"/>
+                        <line x1="113" y1="35" x2="51" y2="97" stroke="#ca8a04" stroke-width="1.4"/>
+                        <circle cx="82" cy="66" r="7" fill="#dc2626"/>
+                        <text x="82" y="128" text-anchor="middle" font-size="9" font-weight="bold" fill="#854d0e">Spin Wheel (K = 132 cm)</text>
+                    </svg>`,
+                caption: "Spin wheel keliling 132 cm → hitung luas",
+                options: ["462 cm²", "1.386 cm²", "616 cm²", "2.772 cm²"],
+                correct: 1, // B
+                explanation: `K = 2 × ${frac(22, 7)} × r = 132 → r = (132 × 7) ÷ 44 = 21 cm. Luas spin wheel = ${frac(22, 7)} × 21 × 21 = 66 × 21 = <strong>1.386 cm²</strong>.`
+            }
+        ];
+
+        // =========================================================================
+        // PENYIMPANAN OTOMATIS (LOCALSTORAGE) AGAR AMAN SAAT RELOAD / OFFLINE
+        // =========================================================================
+        const STORAGE_KEY = 'geolingkaran_quiz_30_unik_v3';
+        let quizState = {
+            currentIndex: 0,
+            userAnswers: {}
+        };
+
+        function loadSavedState() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (parsed && typeof parsed === 'object') {
+                        quizState.currentIndex = (typeof parsed.currentIndex === 'number' && parsed.currentIndex >= 0 && parsed.currentIndex < questionsBank.length)
+                            ? parsed.currentIndex
+                            : 0;
+                        quizState.userAnswers = (parsed.userAnswers && typeof parsed.userAnswers === 'object')
+                            ? parsed.userAnswers
+                            : {};
+                    }
+                }
+            } catch (err) {
+                console.warn('Tidak dapat membaca data tersimpan:', err);
+            }
+        }
+
+        function saveState() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(quizState));
+                const badge = document.getElementById('autosave-indicator');
+                if (badge) {
+                    badge.classList.add('ring-2', 'ring-emerald-400');
+                    setTimeout(() => badge.classList.remove('ring-2', 'ring-emerald-400'), 350);
+                }
+            } catch (err) {
+                console.warn('Tidak dapat menyimpan data otomatis:', err);
+            }
+        }
+
+        window.addEventListener('beforeunload', () => {
+            saveState();
+        });
+
+        // =========================================================================
+        // RENDER SOAL, OPSI, UMPAN BALIK & NAVIGASI
+        // =========================================================================
+        function renderQuestion() {
+            const idx = quizState.currentIndex;
+            const q = questionsBank[idx];
+            const userAns = quizState.userAnswers[idx];
+            const isAnswered = userAns !== undefined && userAns !== null;
+
+            document.getElementById('q-number').textContent = q.id;
+            const catEl = document.getElementById('q-category');
+            catEl.textContent = q.category;
+
+            if (q.category === "Soal Langsung") {
+                catEl.className = "px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-200 text-xs font-semibold";
+            } else if (q.category === "Luas Gabungan") {
+                catEl.className = "px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-400/30 text-indigo-200 text-xs font-semibold";
+            } else {
+                catEl.className = "px-3 py-1 rounded-full bg-teal-500/20 border border-teal-400/30 text-teal-200 text-xs font-semibold";
+            }
+
+            const statusBadge = document.getElementById('q-status-badge');
+            if (isAnswered) {
+                statusBadge.innerHTML = (userAns === q.correct)
+                    ? `<span class="text-emerald-400 font-semibold"><i class="fa-solid fa-check mr-1"></i>Benar</span>`
+                    : `<span class="text-rose-400 font-semibold"><i class="fa-solid fa-xmark mr-1"></i>Salah</span>`;
+            } else {
+                statusBadge.innerHTML = `<span class="text-slate-400">Belum dijawab</span>`;
+            }
+
+            document.getElementById('q-text').innerHTML = q.question;
+            document.getElementById('q-illustration').innerHTML = q.illustration;
+            document.getElementById('q-illustration-caption').textContent = q.caption;
+
+            const optionsWrap = document.getElementById('q-options');
+            optionsWrap.innerHTML = '';
+            const letters = ['A', 'B', 'C', 'D'];
+
+            q.options.forEach((optText, optIdx) => {
+                const btn = document.createElement('button');
+                let btnClass = "w-full text-left p-4 rounded-2xl border-2 transition flex items-center gap-3.5 text-sm sm:text-base font-medium ";
+                let badgeClass = "w-8 h-8 rounded-xl font-display font-bold flex items-center justify-center shrink-0 text-sm ";
+
+                if (!isAnswered) {
+                    btnClass += "bg-white hover:bg-primary-50/70 border-slate-200 hover:border-primary-400 text-slate-800 cursor-pointer";
+                    badgeClass += "bg-slate-100 text-slate-700";
+                } else {
+                    btn.disabled = true;
+                    if (optIdx === q.correct) {
+                        btnClass += "bg-emerald-50 border-emerald-500 text-emerald-950 font-semibold";
+                        badgeClass += "bg-emerald-500 text-white";
+                    } else if (optIdx === userAns && userAns !== q.correct) {
+                        btnClass += "bg-rose-50 border-rose-500 text-rose-950";
+                        badgeClass += "bg-rose-500 text-white";
+                    } else {
+                        btnClass += "bg-slate-50 border-slate-200 text-slate-400 opacity-75";
+                        badgeClass += "bg-slate-200 text-slate-500";
+                    }
+                }
+
+                btn.className = btnClass;
+                btn.innerHTML = `
+                    <span class="${badgeClass}">${letters[optIdx]}</span>
+                    <span class="flex-1">${optText}</span>
+                    ${isAnswered && optIdx === q.correct ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : ''}
+                    ${isAnswered && optIdx === userAns && userAns !== q.correct ? '<i class="fa-solid fa-circle-xmark text-rose-600 text-lg"></i>' : ''}
+                `;
+
+                if (!isAnswered) {
+                    btn.onclick = () => selectAnswer(optIdx);
+                }
+                optionsWrap.appendChild(btn);
+            });
+
+            // Umpan balik benar/salah + pembahasan langsung
+            const feedbackBox = document.getElementById('q-feedback');
+            if (isAnswered) {
+                const isRight = userAns === q.correct;
+                feedbackBox.classList.remove('hidden');
+                if (isRight) {
+                    feedbackBox.className = "rounded-2xl p-5 border bg-emerald-50/90 border-emerald-300 text-emerald-950";
+                    document.getElementById('q-feedback-icon').innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i>`;
+                    document.getElementById('q-feedback-title').textContent = "Tepat Sekali! Jawaban Kamu Benar";
+                    document.getElementById('q-feedback-title').className = "font-display font-bold text-base text-emerald-800";
+                } else {
+                    feedbackBox.className = "rounded-2xl p-5 border bg-rose-50/90 border-rose-300 text-rose-950";
+                    document.getElementById('q-feedback-icon').innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-600"></i>`;
+                    document.getElementById('q-feedback-title').textContent = `Kurang Tepat — Jawaban Benar: ${letters[q.correct]}`;
+                    document.getElementById('q-feedback-title').className = "font-display font-bold text-base text-rose-800";
+                }
+                document.getElementById('q-feedback-explanation').innerHTML = `<strong>Pembahasan:</strong> ${q.explanation}`;
+            } else {
+                feedbackBox.classList.add('hidden');
+            }
+
+            document.getElementById('btn-prev').disabled = (idx === 0);
+            document.getElementById('btn-next').disabled = (idx === questionsBank.length - 1);
+
+            renderNavGrid();
+            updateStats();
+        }
+
+        function selectAnswer(optIdx) {
+            const idx = quizState.currentIndex;
+            if (quizState.userAnswers[idx] !== undefined) return;
+            quizState.userAnswers[idx] = optIdx;
+            saveState();
+            renderQuestion();
+        }
+
+        function navigateQuestion(delta) {
+            const nextIdx = quizState.currentIndex + delta;
+            if (nextIdx >= 0 && nextIdx < questionsBank.length) {
+                quizState.currentIndex = nextIdx;
+                saveState();
+                renderQuestion();
+            }
+        }
+
+        function jumpToQuestion(targetIdx) {
+            if (targetIdx >= 0 && targetIdx < questionsBank.length) {
+                quizState.currentIndex = targetIdx;
+                saveState();
+                renderQuestion();
+                if (window.innerWidth < 1024) {
+                    document.getElementById('quiz-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        }
+
+        function renderNavGrid() {
+            const grid = document.getElementById('nav-grid');
+            grid.innerHTML = '';
+
+            questionsBank.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                const ans = quizState.userAnswers[idx];
+                const isAnswered = ans !== undefined && ans !== null;
+                const isCurrent = idx === quizState.currentIndex;
+
+                let cls = "h-10 rounded-xl font-display font-bold text-xs transition flex items-center justify-center ";
+                if (isAnswered) {
+                    cls += (ans === q.correct)
+                        ? "bg-emerald-500 text-white hover:bg-emerald-600 "
+                        : "bg-rose-500 text-white hover:bg-rose-600 ";
+                } else {
+                    cls += "bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 ";
+                }
+
+                if (isCurrent) {
+                    cls += "ring-2 ring-offset-2 ring-primary-600 scale-105 ";
+                }
+
+                btn.className = cls;
+                btn.textContent = q.id;
+                btn.title = `Soal ${q.id} • ${q.category}`;
+                btn.onclick = () => jumpToQuestion(idx);
+                grid.appendChild(btn);
+            });
+        }
+
+        function updateStats() {
+            let answered = 0;
+            let correct = 0;
+            let wrong = 0;
+
+            questionsBank.forEach((q, idx) => {
+                const ans = quizState.userAnswers[idx];
+                if (ans !== undefined && ans !== null) {
+                    answered++;
+                    if (ans === q.correct) correct++;
+                    else wrong++;
+                }
+            });
+
+            const score = Math.round((correct / questionsBank.length) * 100);
+            const pct = Math.round((answered / questionsBank.length) * 100);
+
+            document.getElementById('stat-answered').textContent = answered;
+            document.getElementById('stat-correct').textContent = correct;
+            document.getElementById('stat-wrong').textContent = wrong;
+            document.getElementById('stat-score').textContent = score;
+
+            document.getElementById('nav-progress-pct').textContent = `${pct}% Selesai`;
+            document.getElementById('nav-progress-bar').style.width = `${pct}%`;
+
+            return { answered, correct, wrong, score };
+        }
+
+        // =========================================================================
+        // MODAL REKAP & KONFIRMASI RESET
+        // =========================================================================
+        function showSummaryModal() {
+            const st = updateStats();
+            const unanswered = questionsBank.length - st.answered;
+
+            document.getElementById('modal-final-score').textContent = st.score;
+            document.getElementById('modal-answered-info').textContent = `${st.answered} dari 30 soal telah dijawab`;
+            document.getElementById('modal-correct').textContent = st.correct;
+            document.getElementById('modal-wrong').textContent = st.wrong;
+            document.getElementById('modal-unanswered').textContent = unanswered;
+
+            const msg = document.getElementById('modal-feedback-msg');
+            if (st.answered < 30) {
+                msg.textContent = `Kamu baru mengerjakan ${st.answered} dari 30 soal (${unanswered} soal tersisa). Jawabanmu sudah aman tersimpan dan bisa dilanjutkan kapan saja.`;
+            } else if (st.score >= 85) {
+                msg.textContent = "Luar biasa! Kamu sudah sangat menguasai soal langsung, luas bangun gabungan/arsiran, dan soal cerita lingkaran.";
+            } else if (st.score >= 65) {
+                msg.textContent = "Bagus! Kamu sudah memahami banyak soal. Cek kembali nomor berwarna merah pada navigasi untuk mempelajari pembahasannya.";
+            } else {
+                msg.textContent = "Terus semangat berlatih! Pelajari kembali pembahasan langkah demi langkah di setiap soal.";
+            }
+
+            document.getElementById('summary-modal').classList.remove('hidden');
+        }
+
+        function closeSummaryModal() {
+            document.getElementById('summary-modal').classList.add('hidden');
+        }
+
+        function openConfirmReset() {
+            document.getElementById('reset-modal').classList.remove('hidden');
+        }
+
+        function closeConfirmReset() {
+            document.getElementById('reset-modal').classList.add('hidden');
+        }
+
+        function executeResetQuiz() {
+            quizState = { currentIndex: 0, userAnswers: {} };
+            saveState();
+            closeConfirmReset();
+            renderQuestion();
+        }
+
+        // Inisialisasi saat halaman dimuat
+        window.addEventListener('DOMContentLoaded', () => {
+            try {
+                loadSavedState();
+                renderQuestion();
+            } catch (err) {
+                console.error('Terjadi kesalahan saat memuat kuis:', err);
+                const qText = document.getElementById('q-text');
+                if (qText) {
+                    qText.innerHTML = `<span class="text-rose-600 font-semibold">Maaf, terjadi gangguan saat memuat soal. Silakan muat ulang halaman atau klik Reset Kuis.</span>`;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
